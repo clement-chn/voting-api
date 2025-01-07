@@ -33,7 +33,7 @@ GET http://localhost:3000/users/all
 
 GET http://localhost:3000/users/1
 
-### CHANGE ONE TO CANDIDATE
+### CHANGE ONE TO CANDIDATE (Admin)
 
 POST http://localhost:3000/users/changeOneToCandidate
 Content-Type: application/json
@@ -42,3 +42,15 @@ Content-Type: application/json
     "userId": 1,
     "isCandidate": false 
 }
+
+### GET PHASE TABLE (Admin)
+
+GET http://localhost:3000/phases/phase
+
+### OPEN REGISTRATIONS PHASE (Admin)
+
+POST http://localhost:3000/phases/open
+
+### CLOSE REGISTRATIONS PHASE (Admin)
+
+POST http://localhost:3000/phases/close

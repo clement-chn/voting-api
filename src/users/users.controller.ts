@@ -40,6 +40,7 @@ export class UsersController {
     async signOut(@Session() session: any) {
         session.userId = null
         session.email = null
+        session.isAdmin = null
         return session
     }
 
