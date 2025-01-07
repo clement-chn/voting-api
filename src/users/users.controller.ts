@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Session } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Session } from '@nestjs/common';
 import { CreateUserDto } from 'src/dto/create.user.dto';
 import { UsersService } from './users.service';
 import { AuthService } from './auth.service';
+import { ChangeCandidate } from 'src/dto/change.candidate.dto';
 
 @Controller('users')
 export class UsersController {
@@ -16,12 +17,22 @@ export class UsersController {
         return user
     }
 
+    @Post('/changeOneToCandidate')
+    async changeOneToCandidate(@Body() body: ChangeCandidate, @Session() session: any) {
+        if (session.isAdmin === true) {
+            return await this.usersService.changeOneToCandidate(body.userId, body.isCandidate)
+        } else {
+            console.log("vous n'avez pas le pouvoir requis pour effectuer cette action")
+        }
+    }
+
     @Post('/signin')
     async signIn(@Body() body: CreateUserDto, @Session() session: any) {
         const user = await this.authService.signin(body.email, body.password)
         console.log(user.id)
         session.userId = user.id
         session.email = user.email
+        session.isAdmin = user.isAdmin
         return user
     }
 
@@ -36,6 +47,12 @@ export class UsersController {
     // @UseInterceptors(new SerializeInterceptor(UserDto))
     async findAllUsers() {
         const user = await this.usersService.findAll()
+        return user
+    }
+
+    @Get('/:id')
+    async findById(@Param('id') id: number) {
+        const user = await this.usersService.findOne(id)
         return user
     }
 
