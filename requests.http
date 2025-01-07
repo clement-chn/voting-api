@@ -1,0 +1,16 @@
+### CREER UN USER
+
+POST http://localhost:3000/users/signup
+Content-Type: application/json
+
+{
+    "email": "admin@test.com",
+    "password": "Password234$$$",
+    "isAdmin": true,
+    "isCandidate": false,
+    "isBanned": false
+}
+
+### GET ALL USERS (parce que mon plugin pour voir ma BDD ne fonctionne pas)
+
+GET http://localhost:3000/users/all
