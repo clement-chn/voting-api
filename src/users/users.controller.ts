@@ -12,10 +12,24 @@ export class UsersController {
 
     @Post('/signup')
     async signUp(@Body() body: CreateUserDto, @Session() session: any) {
-        const user = await this.authService.signup(body.email, body.password, body.isAdmin, body.isCandidate, body.isBanned)
-        // session.id = user.id
-        // session.email = user.email
+        const user = await this.authService.signup(body.email, body.password, false, false, false)
         return user
+    }
+
+    @Post('/signin')
+    async signIn(@Body() body: CreateUserDto, @Session() session: any) {
+        const user = await this.authService.signin(body.email, body.password)
+        console.log(user.id)
+        session.userId = user.id
+        session.email = user.email
+        return user
+    }
+
+    @Post('/signout')
+    async signOut(@Session() session: any) {
+        session.userId = null
+        session.email = null
+        return session
     }
 
     @Get('/all')

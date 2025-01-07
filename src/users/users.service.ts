@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Session } from '@nestjs/common';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,6 +11,7 @@ export class UsersService {
     }
 
     async create(email: string, password: string, isAdmin: boolean, isCandidate: boolean, isBanned: boolean) {
+        
         const user = this.repo.create({email, password, isAdmin, isCandidate, isBanned})
         return await this.repo.save(user)
     }

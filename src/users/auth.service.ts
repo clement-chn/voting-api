@@ -1,4 +1,4 @@
-import { BadRequestException } from "@nestjs/common";
+import { BadRequestException, Session } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { randomBytes, scrypt as _scrypt } from "crypto";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -31,5 +31,28 @@ export class AuthService {
         const user = this.UsersService.create(email, result, isAdmin, isCandidate, isBanned)
         
         return user
+    }
+
+    async signin(email: string, password: string) {
+
+        const users = await this.UsersService.find(email)
+        
+        if (!users) {
+            throw new BadRequestException('user not found')
+        }
+        
+        const userInputPassword = password
+        const userPassword = users[0].password
+        const salt = userPassword.split('.')[0]
+
+        const hash = (await scrypt(userInputPassword, salt, 32) as Buffer)
+        const result = salt + '.' + hash.toString('hex')
+
+        if (result === userPassword) {
+            console.log('les mdp correspondent')
+            
+            return users[0]
+        }
+
     }
 }

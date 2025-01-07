@@ -4,13 +4,31 @@ POST http://localhost:3000/users/signup
 Content-Type: application/json
 
 {
-    "email": "admin@test.com",
+    "email": "admin2@test.com",
     "password": "Password234$$$",
     "isAdmin": true,
     "isCandidate": false,
     "isBanned": false
 }
 
-### GET ALL USERS (parce que mon plugin pour voir ma BDD ne fonctionne pas)
+### SIGNIN
+
+POST http://localhost:3000/users/signin
+Content-Type: application/json
+
+{
+    "email": "admin@test.com",
+    "password": "Password234$$$"
+}
+
+### SIGNOUT
+
+POST http://localhost:3000/users/signout
+
+### GET ALL USERS
+
+GET http://localhost:3000/users/all
+
+### GET ONE USER
 
 GET http://localhost:3000/users/all
